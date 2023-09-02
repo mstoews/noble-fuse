@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "condo-mgmt": {
+      "hosting": {
+        "fuse": [
+          "condo-mgmt"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "condo-mgmt"
+  }
+}

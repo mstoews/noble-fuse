@@ -1,0 +1,125 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto -px-20" cdkScrollable>
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="h-full border-gray-300 rounded-2xl">
+        <mat-drawer-container class="flex-col h-full">
+            <mat-drawer class="lg:w-1/3 sm:w-full bg-white-100" #drawer [opened]="false" mode="over" [position]="'end'" [disableClose]="false">
+                <div class="flex flex-col w-full text-gray-700 max-w-140 filter-article filter-interactive">
+                    <div class="h-10 pt-2 text-2xl text-justify text-white bg-slate-600" mat-dialog-title>
+                        {{ sTitle }}
+                    </div>
+                     <div mat-dialog-content>
+                        <form [formGroup]="accountsForm" >
+
+                            <div class="flex flex-col m-1">
+                                <section class="flex flex-col md:flex-row">
+
+                                    <div class="flex flex-col grow">
+                                      <mat-label class="ml-2 text-base">Parent Account Code</mat-label>
+                                      <mat-form-field class="m-1 form-element grow" appearance="outline">
+                                        <input matInput placeholder="Parent" formControlName="parent" />
+                                      </mat-form-field>
+                                    </div>
+
+                                    <div class="flex flex-col grow">
+                                      <mat-label class="ml-2 text-base">Child Account Code</mat-label>
+                                      <mat-form-field class="m-1 form-element grow" appearance="outline">
+                                        <input matInput placeholder="Child" formControlName="child" />
+                                      </mat-form-field>
+                                    </div>
+                                  </section>
+
+                              <div class="flex flex-col grow">
+                                <mat-label class="ml-2 text-base">Name</mat-label>
+                                <mat-form-field class="m-1 form-element" appearance="outline">
+                                  <input matInput placeholder="Name" formControlName="name" />
+                                </mat-form-field>
+                              </div>
+
+                              <section class="flex flex-col md:flex-row">
+                                <div class="flex flex-col grow">
+                                  <mat-label class="ml-2 text-base">Type</mat-label>
+                                  <mat-form-field class="m-1 form-element grow" appearance="outline">
+                                    <input matInput placeholder="Type" formControlName="type" />
+                                  </mat-form-field>
+                                </div>
+
+                                <div class="flex flex-col grow">
+                                  <mat-label class="ml-2 text-base">Current Balance</mat-label>
+                                  <mat-form-field class="m-1 form-element grow" appearance="outline">
+                                    <input matInput placeholder="Balance" formControlName="balance" />
+                                  </mat-form-field>
+                                </div>
+
+                              </section>
+
+                              <div class="flex flex-col grow">
+                                <mat-label class="ml-2 text-base">Long Description</mat-label>
+                                <mat-form-field class="m-1 form-element" appearance="outline">
+                                  <input matInput placeholder="Account Description" formControlName="description" />
+                                </mat-form-field>
+                              </div>
+
+                            </div>
+                          </form>
+                    </div>
+                    <div mat-dialog-actions>
+                        <button mat-icon-button (click)="onUpdate(accountsForm.value)"  aria-label="Add" class="m-2">
+                            <mat-icon [svgIcon]="'mat_outline:update'"  color="primary"></mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="onCreate()" class="m-2" >
+                            <mat-icon [svgIcon]="'mat_outline:add'" color="primary"></mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="closeDrawer()"  class="m-2">
+                            <mat-icon [svgIcon]="'mat_outline:close'" color="primary"></mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="onDelete(accountsForm.value)" class="m-2">
+                            <mat-icon [svgIcon]="'mat_outline:delete'" color="warn"></mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-drawer>
+            <ng-container *ngIf="accounts$ | async as rows">
+                <div class="flex flex-col h-full">
+                    <dx-data-grid *ngIf="accounts$ | async as rows" id="id" [dataSource]="rows"
+                        [remoteOperations]="false" [allowColumnReordering]="true" [rowAlternationEnabled]="true"
+                        [showBorders]="true"
+
+                        [focusedRowEnabled]="true"
+                        [focusedRowIndex]="0"
+                        (onCellDblClick)="onCellDoublClicked($event)"
+                        [repaintChangesOnly]="true"
+
+                        keyExpr="id"
+                        >
+                        (onFocusedRowChanged)="onFocusedRowChanged($event)"
+                        <dxo-paging [pageSize]="15"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[15, 25, 50, 100]"></dxo-pager>
+                        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+                        <dxo-group-panel [visible]="true"></dxo-group-panel>
+                        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+
+                        <dxi-column dataField="parent" dataType="string"></dxi-column>
+                        <dxi-column dataField="child" dataType="string"></dxi-column>
+                        <dxi-column dataField="name" dataType="string"></dxi-column>
+                        <dxi-column dataField="type" dataType="string"></dxi-column>
+                        <dxi-column dataField="description" dataType="string"></dxi-column>
+                        <dxi-column dataField="createUsr" dataType="string"></dxi-column>
+                        <dxi-column dataField="createDate" dataType="date"></dxi-column>
+                        <dxi-column dataField="updateUsr" dataType="string"></dxi-column>
+                        <dxi-column dataField="updateDate" dataType="date"></dxi-column>
+                    </dx-data-grid>
+
+                    <button (click)="onCreate()"
+                        class="fixed w-12 h-12 p-1 transition duration-200 ease-in bg-blue-600 rounded-full shadow bottom-20 right-14 hover:bg-blue-800 active:shadow-lg mouse focus:outline-none">
+                        <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="inline-block w-6 h-6">
+                            <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
+        C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
+        C15.952,9,16,9.447,16,10z" />
+                        </svg>
+                    </button>
+                </div>
+            </ng-container>
+        </mat-drawer-container>
+
+    </div>
