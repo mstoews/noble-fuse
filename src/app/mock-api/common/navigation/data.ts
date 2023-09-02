@@ -21,7 +21,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'General Ledger',
                 type: 'basic',
                 icon: 'heroicons_outline:check',
-                link: '/gl',
+                link: '/general-ledger',
             },
             {
                 id: 'accounting.accounts-receivable',
