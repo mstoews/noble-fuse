@@ -40,7 +40,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
             {
                 id: 'accounts.tabs',
-                title: 'Transation Analysis',
+                title: 'Transaction Analysis',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
                 link: '/accounts/gl-tabs',

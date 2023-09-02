@@ -18,7 +18,7 @@ import {
     GLJournalDetailUpdate,
     GLJournalHeaderUpdate,
 
-} from 'app/modules/models'
+} from '../models'
 import {
     collection,
     collectionData,
@@ -52,24 +52,24 @@ export class GeneralLedgerService {
         map(user => user!),
     )
 
-    // createAdminUser(uid: string)   {
-    //     getAuth().currentUser?.getIdToken(true).then((token) => {
-    //         this.jwtAuth = token;
-    //       }
-    //     ).catch((error) => {
-    //         console.log(error);
-    //     });
+    createAdminUser(uid: string)   {
+        // getAuth().currentUser?.getIdToken(true).then((token) => {
+        //     this.jwtAuth = token;
+        //   }
+        // ).catch((error) => {
+        //     console.log(error);
+        // });
 
-    //     const headers = new HttpHeaders().set(
-    //         'Authorization',
-    //         this.jwtAuth as string
-    //       );
-    //     return this.http.post(
-    //         environment.api.createAdmin,
-    //         { uid },
-    //         { headers }
-    //       );
-    // }
+        // const headers = new HttpHeaders().set(
+        //     'Authorization',
+        //     this.jwtAuth as string
+        //   );
+        // return this.http.post(
+        //     environment.api.createAdmin,
+        //     { uid },
+        //     { headers }
+        //   );
+    }
 
     // Journal Entry Header
     journalHeaderRef<T = GLJournalHeaderSnap | GLJournalHeader>(journal_id: string) {
@@ -108,7 +108,7 @@ export class GeneralLedgerService {
     // gl_acccounts observable
     glaccounts$(parent: string, child: string) {
         const ref = this.accountingCol<AccountingSnap>(parent, child);
-        return collectionData(ref);
+        return collectionData(ref, { idField: 'id' });
     }
 
     // Create gl_accounts observable
@@ -137,8 +137,9 @@ export class GeneralLedgerService {
     // Create a all accounts observable
     allAccounts$() {
         const accountCollection = collection(this.firestore, 'gl-accounts') as CollectionReference<GeneralLedgerAccount>;
-        return collectionData(accountCollection)
+        return collectionData(accountCollection, { idField: 'id' })
     }
+
 
     // GL Type reference
     typeRef<T = AccountType | AccountTypeSnap>(type: string) {
@@ -155,7 +156,7 @@ export class GeneralLedgerService {
     // GL Type observable
     gltypes$(type: string) {
         const ref = this.typeCol<AccountTypeSnap>(type);
-        return collectionData(ref );
+        return collectionData(ref, { idField: 'id' });
     }
 
     // Update
@@ -183,7 +184,7 @@ export class GeneralLedgerService {
     // get types
     allTypes$() {
         const typeCollection = collection(this.firestore, 'gl-type') as CollectionReference<AccountType>;
-        return collectionData(typeCollection)
+        return collectionData(typeCollection, { idField: 'id' })
     }
 
 

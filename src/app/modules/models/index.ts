@@ -42,6 +42,7 @@ export interface UserRoles {
 
 // General Ledger Accounts Lsting
 export interface GeneralLedgerAccount {
+    id:string;
     parent: string;
     child: string;
     name: string;
@@ -55,6 +56,7 @@ export interface GeneralLedgerAccount {
 }
 
 export interface AccountsPayableLedger {
+    id:string;
     account: string;
     name: string;
     vendor: string;
@@ -67,6 +69,7 @@ export interface AccountsPayableLedger {
 }
 
 export interface AccountsPayableDetail {
+    id:string;
     account: string;
     journal_id: string;
     name: string;
@@ -81,6 +84,7 @@ export interface AccountsPayableDetail {
 
 
 export interface AccountType {
+    id:string;
     type: string;
     range: string;
     reporting: string;
@@ -93,6 +97,7 @@ export interface AccountType {
 }
 
 export interface GLJournalHeader {
+    id:string;
     journal_id: string;
     journal_date: string;
     journal_type: string;
@@ -106,6 +111,7 @@ export interface GLJournalHeader {
 }
 
 export interface GLJournalDetail {
+    id:string;
     journal_id: string;
     journal_line: number;
     journal_parent_account: string;
